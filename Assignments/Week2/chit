@@ -1,0 +1,15 @@
+def pdforganiser():
+    Studienjahr = input("Studienjahr: ")
+    datum = input("Datum")
+    Uhrzeit = input("Uhrzeit")
+    Themenblock = input("Themenblock: ")
+    Titel = input("Titel: ")
+    Prof = input("professor")
+
+    formatted_string = f'{Studienjahr}_{datum}_{Uhrzeit}_{Themenblock}_{Prof}_{Titel}'
+    return formatted_string
+
+# Call the function and print the result
+result = pdforganiser()
+print(result)
+
