@@ -3,11 +3,11 @@ import tkinter as tk
 from tkinter import filedialog
 
 def pdforganiser():
-    # Create a GUI window
+    
     root = tk.Tk()
-    root.withdraw()  # Hide the root window
+    root.withdraw() 
 
-    # Use filedialog to open a file dialog for PDF selection
+    
     pdf_path = filedialog.askopenfilename(
         title="Select PDF File",
         filetypes=(("PDF files", "*.pdf"), ("All files", "*.*"))
