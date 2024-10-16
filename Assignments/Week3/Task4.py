@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 
 # perform a ROTn encoding
 def rot_n(plain_text, shift_by):
@@ -18,4 +18,4 @@ def rot_n(plain_text, shift_by):
     # Make sure to return the correct result!
     return result
 
-print(rot_n("abc", 1))
+print(rot_n("Walter44/", 1))
