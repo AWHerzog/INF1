@@ -12,7 +12,7 @@ def area_dict(numbers: [int]):
     return {x:
     { 
         "square": x**2 ,
-        "circle": float(f"{pi * x ** 2:.4f}")
+        "circle": pi * x ** 2
     } for x in numbers if x > 0}
 
 
