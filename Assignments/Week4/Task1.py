@@ -1,6 +1,5 @@
-from math import pi
 number_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
+pi = 3.1415 
 def square_root_dict(numbers: [int]):
     return {x: x**0.5 for x in numbers}
 
