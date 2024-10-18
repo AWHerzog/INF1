@@ -3,8 +3,13 @@
 # You may introduce private/protected utility methods though.
 class Calendar:
 
-    def __init__(self, event_id):
+    def __init__(self, event_id, date_str, start_time, end_time, description):
         self.event_id = event_id
+        self.event_id = event_id
+        self.date_str = date_str
+        self.start_time = start_time
+        self.end_time = end_time
+        self.description = description
         
 
     def add_event(self, date_str, start_time, end_time, description):
