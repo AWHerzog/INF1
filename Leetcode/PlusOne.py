@@ -1,5 +1,9 @@
 def plusOne(digits):
 
-    pass
+    for i in range(len(digits)-1, -1, -1):
+        pass
 
 #do this next
+
+
+
