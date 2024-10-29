@@ -6,15 +6,17 @@ def findTheDifference(s, t):
     
     
     
-    char_list1 = []
-    char_list2 = []
-
+    char_list1 = list(s)
     
-    for x in s:
-        char_list1.append(x)
+    
+    for char in t:
+        if char in char_list1:
+            char_list1.remove(char)
 
-    for y in t:
-        char_list2.append(y)
+        else:
+            return char
+
+
     
         
 
