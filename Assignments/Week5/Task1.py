@@ -1,60 +1,37 @@
-# The signatures of this class and its public methods are required for the automated grading to work.
-# You must not change the names or the List of parameters.
-# You may introduce private/protected utility methods though.
 from datetime import datetime
 
 class Calendar:
-
     def __init__(self):
-        self.next_event_id = 1
         self.events = []
+        self.next_event_id = 1
 
     def add_event(self, date_str, start_time, end_time, description):
+        start_dt = datetime.strptime(f"{date_str} {start_time}", "%Y-%m-%d %H:%M")
+        end_dt = datetime.strptime(f"{date_str} {end_time}", "%Y-%m-%d %H:%M")
         
-        start_time_obj = datetime.strptime(start_time, "%H:%M").time()
-        end_time_obj = datetime.strptime(end_time, "%H:%M").time()
-
+        if start_dt >= end_dt:
+            raise Exception("Start time must be before end time.")
         
-        if start_time_obj >= end_time_obj:
-            raise Exception("Start time cannot be greater or equal to end time")
-
-        
-        event = {
-            "event_id": self.next_event_id,
-            "date_str": date_str,
-            "start_time": start_time,
-            "end_time": end_time,
-            "description": description
-        }
-
-        
-        self.events.append(event)
-
-        
+        event = (self.next_event_id, start_time, end_time, description)
+        self.events.append((date_str, event))
         self.next_event_id += 1
-
         
-        return event["event_id"]
+        return event[0]
 
     def get_events(self, date_str):
-        
-        filtered_events = [event for event in self.events if event["date_str"] == date_str]
-        
-        sorted_events = sorted(filtered_events, key=lambda x: x["start_time"])
-        
-        return [(event["event_id"], event["start_time"], event["end_time"], event["description"]) for event in sorted_events]
+        events_for_date = [event for date, event in self.events if date == date_str]
+        sorted_events = sorted(events_for_date, key=lambda x: x[1])
+        return sorted_events
 
     def delete_event(self, event_id):
-        
-        for event in self.events:
-            if event["event_id"] == event_id:
-                self.events.remove(event)
-                return (event["event_id"], event["start_time"], event["end_time"], event["description"])
-
-        
-        raise Exception("Event ID not found")
+        for i, (date, event) in enumerate(self.events):
+            if event[0] == event_id:
+                return self.events.pop(i)[1]
+        raise Exception("Event ID does not exist.")
 
 
+# You can play around with your implementation in the following body.
+# The contained statements will be ignored while evaluating your solution.
 if __name__ == "__main__":
     cal = Calendar()
     event_id_dinner = cal.add_event("2024-12-24", "18:00", "20:00", "Christmas Dinner with Family")
