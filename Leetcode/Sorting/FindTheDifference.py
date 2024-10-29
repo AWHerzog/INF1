@@ -1,23 +1,22 @@
 
 def findTheDifference(s, t):
     
-    if s == []:
+    if not s:
         return t
     
     
-    for i in list(enumerate(s)):
-        return i
-
-    return i
-            
+    
+    char_list1 = []
+    char_list2 = []
 
     
+    for x in s:
+        char_list1.append(x)
 
-  
+    for y in t:
+        char_list2.append(y)
+    
         
-
-
-
 
 
 
