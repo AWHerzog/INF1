@@ -19,7 +19,4 @@ def findTheDifference(s, t):
 
     
         
-
-
-
 print(findTheDifference(("abcd"), ("abcde")))
