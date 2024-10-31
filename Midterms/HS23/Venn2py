@@ -2,7 +2,7 @@
 def venn(one, two, three):
     return (set(one) & set(two)) - set(three)
 
-#https://www.w3schools.com/python/python_operators.asp
+
 
 print( venn([1, 2, 2, 2, 3, 4], [2, 2, 3, 4], [3]))
 print( venn([1.0, "hi", 3], [1.0, 3, "hi"], [3, 1]))
