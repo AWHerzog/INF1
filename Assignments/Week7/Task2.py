@@ -1,16 +1,14 @@
-
 class Movie:
     def __init__(self, title, actors, duration):
         if not title:
             raise Warning("Title cannot be empty")
-        self._title = title
-
         if not actors:
             raise Warning("Actor list cannot be empty")
-        self._actors = actors
-
         if duration < 1:
             raise Warning("Duration must be at least 1 minute")
+
+        self._title = title
+        self._actors = actors
         self._duration = duration
 
     def get_title(self):
@@ -31,19 +29,19 @@ class Movie:
 
     def __hash__(self):
         return hash((self._title, tuple(self._actors), self._duration))
-    
+
 
 class MovieBox:
     def __init__(self, title, movies):
         if not title:
             raise Warning("Title cannot be empty")
-        self._title = title
-
         if not movies:
             raise Warning("Movies list cannot be empty")
         for movie in movies:
-            if not isinstance(movie, Movie):
-                raise Warning("All items in movies list must be instances of Movie or its subclass")
+            if not isinstance(movie, (Movie, MovieBox)):
+                raise Warning("All items in movies list must be instances of Movie or MovieBox")
+
+        self._title = title
         self._movies = movies
 
     def get_title(self):
@@ -59,7 +57,13 @@ class MovieBox:
         return sum(movie.get_duration() for movie in self._movies)
 
     def get_movies(self):
-        return self._movies
+        all_movies = set()
+        for movie in self._movies:
+            if isinstance(movie, MovieBox):
+                all_movies.update(movie.get_movies())
+            else:
+                all_movies.add(movie)
+        return all_movies
 
     def __repr__(self):
         movies_repr = "[" + ", ".join(repr(movie) for movie in self._movies) + "]"
@@ -70,6 +74,7 @@ class MovieBox:
 
     def __hash__(self):
         return hash((self._title, tuple(self._movies)))
+
     
 
 class Library:
@@ -77,15 +82,12 @@ class Library:
         self._movies = set()
 
     def add_movie(self, movie):
-        if isinstance(movie, Movie) or isinstance(movie, MovieBox):
-            self._movies.add(movie)
-        else:
+        if not isinstance(movie, (Movie, MovieBox)):
             raise TypeError("Only Movie or MovieBox instances can be added.")
+        self._movies.add(movie)
 
     def get_total_duration(self):
-        total_duration = 0
-        for movie in self._movies:
-            total_duration += movie.get_duration()
+        total_duration = sum(movie.get_duration() for movie in self._movies)
         return total_duration
 
     def get_movies(self):
@@ -97,6 +99,8 @@ class Library:
                 unique_movies.update(item.get_movies())
 
         return sorted(unique_movies, key=lambda movie: movie.get_title())
+
+
     
 
 
