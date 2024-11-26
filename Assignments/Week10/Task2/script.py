@@ -32,5 +32,5 @@ def get_average_grade(path):
     return total_grades / counter
 
 
-
-print(get_average_grade("task/my_grades.txt"))
+INPUT_PATH = r"C:\Users\Abraham Herzog\INF1\Assignments\Week10\Task2\my_grades.txt"
+print(get_average_grade(INPUT_PATH))
