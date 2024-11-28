@@ -3,36 +3,33 @@ from car import Car
 class ElectricCar(Car):
 
     def __init__(self, battery_size, battery_range_km):
-        self.max_battery_capacity = battery_size  
-        self.battery_level = battery_size  
-        self.battery_range_km = battery_range_km  
+        self.battery_size = battery_size
+        self.battery_range_km = battery_range_km
+        self.current_charge = battery_size 
 
     def charge(self, kwh):
-        if self.battery_level + kwh > self.max_battery_capacity:
-            self.battery_level = 0  
-            raise Warning("Battery is overfilled")
-        else:
-            self.battery_level += kwh  
-        return self.battery_level
+        if kwh < 0:
+            raise Warning("Invalid charge amount")
+        self.current_charge += kwh
+        if self.current_charge > self.battery_size:
+            raise Warning("Battery overcharged")
+            self.current_charge = 0
 
     def get_battery_status(self):
-        return (self.battery_level, self.max_battery_capacity)
+        return (self.current_charge, self.battery_size)
 
     def get_remaining_range(self):
-        if self.battery_level == 0:
-            return 0.0
-        return (self.battery_level / self.max_battery_capacity) * self.battery_range_km
+        return (self.current_charge / self.battery_size) * self.battery_range_km
 
     def drive(self, dist):
-        required_charge = dist * (self.max_battery_capacity / self.battery_range_km)
-
-        if required_charge > self.battery_level:
-            self.battery_level = 0.0  
-            raise Warning("Not enough charge")
-
-        self.battery_level -= required_charge
-
-        return self.battery_level
+        if dist < 0:
+            raise Warning("Invalid distance")
+        required_charge = (dist / self.battery_range_km) * self.battery_size
+        if required_charge > self.current_charge:
+            raise Warning("Battery depleted")
+            self.current_charge = 0
+        else:
+            self.current_charge -= required_charge
 
 
     

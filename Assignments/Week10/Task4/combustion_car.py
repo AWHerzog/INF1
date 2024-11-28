@@ -3,33 +3,33 @@ from car import Car
 class CombustionCar(Car):
 
     def __init__(self, gas_capacity, gas_per_100km):
-        self.max_gas_capacity = gas_capacity  
-        self.gas_capacity = gas_capacity  
+        self.gas_capacity = gas_capacity
         self.gas_per_100km = gas_per_100km
+        self.current_gas = gas_capacity
 
     def fuel(self, f):
-        if self.gas_capacity + f > self.max_gas_capacity:
-            self.gas_capacity = 0
-            raise Warning("Gas tank is overfilled")
-        else: 
-            self.gas_capacity += f
-        return self.gas_capacity
+        if f < 0:
+            raise Warning("Invalid fuel amount")
+        self.current_gas += f
+        if self.current_gas > self.gas_capacity:
+            raise Warning("Gas tank overfilled")
+            self.current_gas = 0
 
     def get_gas_tank_status(self):
-        return (self.gas_capacity, self.max_gas_capacity)
+        return (self.current_gas, self.gas_capacity)
 
     def get_remaining_range(self):
-        if self.gas_capacity == 0:
-            return 0.0
-        return self.gas_capacity / self.gas_per_100km * 100
+        return (self.current_gas / self.gas_per_100km) * 100
 
     def drive(self, dist):
-        required_fuel = dist * (self.gas_per_100km / 100)
-        if required_fuel > self.gas_capacity:
-            self.gas_capacity = 0.0
-            raise Warning("Not enough fuel")
-        self.gas_capacity -= required_fuel
-        return self.gas_capacity
+        if dist < 0:
+            raise Warning("Invalid distance")
+        required_gas = (dist / 100) * self.gas_per_100km
+        if required_gas > self.current_gas:
+            raise Warning("Fuel depleted")
+            self.current_gas = 0
+        else:
+            self.current_gas -= required_gas
 
 
 

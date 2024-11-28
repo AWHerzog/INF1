@@ -3,46 +3,53 @@ from electric_car import ElectricCar
 
 
 class HybridCar(CombustionCar, ElectricCar):
-
     def __init__(self, gas_capacity, gas_per_100km, battery_size, battery_range_km):
         CombustionCar.__init__(self, gas_capacity, gas_per_100km)
         ElectricCar.__init__(self, battery_size, battery_range_km)
-        
-        self.is_electric_mode = True
+        self.electric = True
 
     def switch_to_combustion(self):
-        return self.is_electric_mode == False
+        self.electric = False
 
     def switch_to_electric(self):
-        return self.is_electric_mode == True
+        self.electric = True
+
 
     def get_remaining_range(self):
-        if self.is_electric_mode == True:
-            return ElectricCar.get_remaining_range()
-        else:
-            return CombustionCar.get_remaining_range()
+        return CombustionCar.get_remaining_range(self) + ElectricCar.get_remaining_range(self)
 
     def drive(self, dist):
-        if self.is_electric_mode:
-            try:
+        if self.electric:
+            remaining_electric_range = ElectricCar.get_remaining_range(self)
+            if remaining_electric_range >= dist:
                 ElectricCar.drive(self, dist)
-            except Warning:
-                print("Battery depleted, switching to combustion mode")
+            else:
+                ElectricCar.drive(self, remaining_electric_range)
                 self.switch_to_combustion()
-                CombustionCar.drive(self, dist)
+                remaining_distance = dist - remaining_electric_range
+                remaining_combustion_range = CombustionCar.get_remaining_range(self)
+                
+                if remaining_combustion_range >= remaining_distance:
+                    CombustionCar.drive(self, remaining_distance)
+                else:
+                    CombustionCar.drive(self, remaining_combustion_range)
+                    raise Warning("Both fuel and battery are depleted")
+        
         else:
-            try:
+            remaining_combustion_range = CombustionCar.get_remaining_range(self)
+            if remaining_combustion_range >= dist:
                 CombustionCar.drive(self, dist)
-            except Warning:
-                print("Fuel depleted, switching to electric mode")
+            else:
+                CombustionCar.drive(self, remaining_combustion_range)
                 self.switch_to_electric()
-                ElectricCar.drive(self, dist)
+                remaining_distance = dist - remaining_combustion_range
+                remaining_electric_range = ElectricCar.get_remaining_range(self)
 
-    def get_gas_tank_status(self):
-        return CombustionCar.get_gas_tank_status(self)
-
-    def get_battery_status(self):
-        return ElectricCar.get_battery_status(self)
+                if remaining_electric_range >= remaining_distance:
+                    ElectricCar.drive(self, remaining_distance)
+                else:
+                    ElectricCar.drive(self, remaining_electric_range)
+                    raise Warning("Both fuel and battery are depleted")
 
 
 
