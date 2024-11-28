@@ -1,5 +1,13 @@
+
 def organize_employee_data(employees):
-    return {}
+    return {
+        department:
+        { name: salary
+         for name, dept, salary in employees
+         if dept == department
+        }
+        for department in {dept for _, dept, _ in employees}
+    }
 
 # The following lines call the function to print the return
 # value to the Console. This way you can check what it does.

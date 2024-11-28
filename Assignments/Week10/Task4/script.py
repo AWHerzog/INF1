@@ -1,5 +1,3 @@
-
-
 from combustion_car import CombustionCar
 from electric_car import ElectricCar
 from hybrid_car import HybridCar
