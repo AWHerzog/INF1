@@ -19,6 +19,9 @@ class HybridCar(CombustionCar, ElectricCar):
         return CombustionCar.get_remaining_range(self) + ElectricCar.get_remaining_range(self)
 
     def drive(self, dist):
+        if not isinstance(dist, (float)):
+            raise Warning("Not an int or float")
+        
         if self.electric:
             remaining_electric_range = ElectricCar.get_remaining_range(self)
             if remaining_electric_range >= dist:
