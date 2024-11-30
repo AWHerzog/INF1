@@ -2,7 +2,7 @@ from combustion_car import CombustionCar
 from electric_car import ElectricCar
 from hybrid_car import HybridCar
 
-##Check all classes for valid inputs; must be floats in the constructor
+
 
 c = CombustionCar(40.0, 8.0)
 print(c.get_remaining_range()) # 500
@@ -15,7 +15,7 @@ except Warning:
     print("fuel is depleted")
 else:
     raise Warning("Here should have been raised a warning!")
-
+    
 
 
 e = ElectricCar(25.0, 500.0)

@@ -53,6 +53,6 @@ class HybridCar(CombustionCar, ElectricCar):
                 else:
                     ElectricCar.drive(self, remaining_electric_range)
                     raise Warning("Both fuel and battery are depleted")
-
+        return self.get_remaining_range()
 
 
