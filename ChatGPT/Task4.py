@@ -26,4 +26,4 @@ print(calculate_quantity(inventory))
 
 
 print(calculate_quantity(inventory))
-
+#luiz
