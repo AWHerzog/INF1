@@ -1,6 +1,8 @@
 def count_palindromes(sentence):
     
+    
     out = "".join(c for c in sentence if c not in ('!','.',':', '?'))
+
 
     words = out.split()
     
