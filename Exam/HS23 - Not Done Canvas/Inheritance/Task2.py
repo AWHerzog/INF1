@@ -1,45 +1,46 @@
 from abc import ABC, abstractmethod
 
 class Driver:
-    counter = 1001
+    unique_id = 1001    
     def __init__(self, name):
         self.name = name
-        self.number = Driver.counter
-        Driver.counter += 1
+        self.number = Driver.unique_id
+        Driver.unique_id += 1   
 
 class Transport(ABC):
     def __init__(self, driver):
         self.driver = driver
         self.trips = []
 
-    @abstractmethod
-    def total_cost(self):
-        pass
-    
     def trip(self, km):
         self.trips.append(km)
     
-    def __str__(self):
-        return f"Transport revenue: {self.total_cost()} (driver: {self.driver.name})"
+    @abstractmethod
+    def total_cost(self):
+        pass
+
+    def __repr__(self):
+        return f"Transport revenue: {self.total_cost():.2f} (driver: {self.driver.name})"
 
 class Shuttle(Transport):
-    def __init__(self, driver, total_fee):
+    def __init__(self, driver, fee):
         super().__init__(driver)
-        self.total_fee = total_fee
-
-    def total_cost(self):
-        return self.total_fee
-
-class Taxi(Transport):
-    def __init__(self, driver, trip_fee, small_fee):
-        super().__init__(driver)
-        self.trip_fee = trip_fee
-        self.small_fee = small_fee
+        self.fee = fee
     
     def total_cost(self):
-        return len(self.trips) * self.trip_fee + sum(self.trips) * self.small_fee
+        return self.fee
+
+class Taxi(Transport):
+    def __init__(self, driver, trip_fee, km_fee):
+        super().__init__(driver)
+        self.trip_fee = trip_fee 
+        self.km_fee = km_fee 
+    
+    def total_cost(self):
+        return len(self.trips) * self.trip_fee + sum(self.trips) * self.km_fee
 
 class DiscountTaxi(Taxi):
+    
     def total_cost(self):
         return super().total_cost() * 0.8
 
