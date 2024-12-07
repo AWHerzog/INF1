@@ -1,5 +1,4 @@
 
-
 def register(enrollments, student, course):
     if student not in enrollments:
         enrollments[student] = {course}
@@ -14,9 +13,6 @@ def deregister(enrollments, student, course):
         if len(enrollments[student]) == 0:
             del(enrollments[student])
     return enrollments
-
-
-
 
 print( register(  {},                        111, "INF-1") )
 print( register(  {222: {"INF-1", "BIO-2"}}, 222, "PHY-2") )
