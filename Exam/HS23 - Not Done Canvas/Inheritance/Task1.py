@@ -5,44 +5,50 @@ class Restaurant:
         self.name = name
 
 class Staff(ABC):
-    counter = 101
+    unique_id = 101
     def __init__(self, restaurant):
         self.restaurant = restaurant
+        self.number = Staff.unique_id
+        Staff.unique_id += 1
         self.shifts = []
-        self.number = Staff.counter
-        Staff.counter += 1
     
-    def work(self,hours):
-        return self.shifts.append(hours)
-
     @abstractmethod
     def salary(self):
         pass
+
+    def work(self, amount):
+        self.shifts.append(amount)
     
     def __str__(self):
-        return f"working for: {self.restaurant.name} with salary :{self.salary()}"
+        return f"Staff working at {self.restaurant.name} with salary {self.salary()}"
+    
+    
 
 class Server(Staff):
-    def __init__(self, restaurant, base_salary, hourly_salary):
+    def __init__(self, restaurant, bsalary, hsalary):
         super().__init__(restaurant)
-        self.base_salary = base_salary
-        self.hourly_salary = hourly_salary
-
+        self.bsalary = bsalary
+        self.hsalary = hsalary
+    
     def salary(self):
-        return self.base_salary + sum(self.shifts) * self.hourly_salary
-
+        return self.bsalary + sum(self.shifts) * self.hsalary 
+    
 
 class Dishwasher(Server):
+    def __init__(self, restaurant, bsalary, hsalary):
+        super().__init__(restaurant, bsalary, hsalary)
+
     def salary(self):
-        return super().salary() * 0.9
+        return Server.salary(self) * 0.9
 
 class Cook(Staff):
-    def __init__(self, restaurant, base_salary):
+    def __init__(self, restaurant, payment):
         super().__init__(restaurant)
-        self.base_salary = base_salary
-
+        self.payment = payment
+    
     def salary(self):
-        return self.base_salary
+        return self.payment
+
 
 restaurant = Restaurant("Mc Ronalds")
 

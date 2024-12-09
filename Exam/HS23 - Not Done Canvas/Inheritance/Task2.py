@@ -1,47 +1,21 @@
+
 from abc import ABC, abstractmethod
 
 class Driver:
-    counter = 1001
-    def __init__(self, name):
-        self.name = name
-        self.number = Driver.counter
-        Driver.counter += 1
+    pass
 
-class Transport(ABC):
-    def __init__(self, driver):
-        self.driver = driver
-        self.trips = []
+class Transport:
+    pass
 
-    @abstractmethod
-    def total_cost(self):
-        pass
-    
-    def trip(self, km):
-        self.trips.append(km)
-    
-    def __str__(self):
-        return f"Transport revenue: {self.total_cost()} (driver: {self.driver.name})"
+class Shuttle:
+    pass
 
-class Shuttle(Transport):
-    def __init__(self, driver, total_fee):
-        super().__init__(driver)
-        self.total_fee = total_fee
+class Taxi:
+    pass
 
-    def total_cost(self):
-        return self.total_fee
+class DiscountTaxi:
+    pass
 
-class Taxi(Transport):
-    def __init__(self, driver, trip_fee, small_fee):
-        super().__init__(driver)
-        self.trip_fee = trip_fee
-        self.small_fee = small_fee
-    
-    def total_cost(self):
-        return len(self.trips) * self.trip_fee + sum(self.trips) * self.small_fee
-
-class DiscountTaxi(Taxi):
-    def total_cost(self):
-        return super().total_cost() * 0.8
 
 driver = Driver("Travis Bickle")
 driver = Driver("Korben Dallas")
