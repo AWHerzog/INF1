@@ -1,35 +1,52 @@
-
 class Brewery:
     def __init__(self, name):
         self.name = name
-        self.__stock = {}
+        self.resources = {}
 
     @staticmethod
-    def to_gram(amount, src_unit):
-        factor = 0
-        if src_unit == "kg":
-            return amount * 1000
-        if src_unit == "t":
-            return amount * 1000 * 1000
-        return amount
-
-    def add_stock(self, resource, amount, unit):
-        if resource not in self.__stock:
-            self.__stock[resource] = 0
+    def to_gram(v, foo):
+        if foo == "t":
+            return v * 1000000
+        if foo ==  "kg":
+            return v * 1000
+        if foo == "g":
+            return v
+    def add_stock(self, name, amount, unit):
+        if name not in self.resources:
+            self.resources[name] = 0
         grams = Brewery.to_gram(amount, unit)
-        self.__stock[resource] += grams
+        self.resources[name] += grams
+
 
     def show_stock(self, resource):
-        if resource not in self.__stock:
+        if resource not in self.resources:
             return 0
-        return self.__stock[resource]
-
+        return self.resources[resource]
+    
     def brew(self, recipe):
-        for resource, amount in recipe.items():
-            if (resource not in self.__stock or
-                self.__stock[resource] < amount):
+        for name, grams in recipe.items():
+            if self.resources[name] < grams or name not in self.resources:
                 raise LookupError
-        for resource, amount in recipe.items():
-            self.__stock[resource] -= amount
-            if self.__stock[resource] == 0:
-                del(self.__stock[resource])
+        for name, grams in recipe.items():  
+            self.resources[name] -= grams
+            if self.resources[name] == 0:
+                del(self.resources[name])
+
+
+
+assert Brewery.to_gram(1, "t") == 1000000
+assert Brewery.to_gram(1, "kg") == 1000
+assert Brewery.to_gram(1, "g") == 1
+b = Brewery("KegOverflow")
+
+assert b.show_stock("Syrup") == 0
+b.add_stock("Malt", 5, "kg")
+b.add_stock("Malt", 5, "kg")
+b.add_stock("Water", 50, "kg")
+b.add_stock("Hops", 30, "g")
+assert b.show_stock("Malt") == 10000
+
+b.brew({"Malt": 8000, "Water": 40000, "Hops": 20})
+assert b.show_stock("Malt") == 2000
+b.brew({"Water": 10000})
+assert b.show_stock("Water") == 0
