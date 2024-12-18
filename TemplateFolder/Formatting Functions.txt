@@ -1,0 +1,23 @@
+#Flatten nested list 
+nested_list = [[1, 2], [3, 4], [5, 6]]
+flattened = [item for sublist in nested_list for item in sublist]
+print(flattened)
+
+
+#Drawing Board: Joining nested list with "\n"
+res = [['x', 'x', 'x'], ['x', ' ', 'x'], ['x', 'x', 'x']]
+print("\n".join(["".join(row) for row in res]))
+
+
+#Filter special Characters
+import re
+def remove_punctuation(text):
+    return re.sub(r"[^\w\s]", "", text)
+
+text = "Hello, world! How's it going?"
+print(remove_punctuation(text))  # Output: Hello world Hows it going
+
+
+#Adding all characters from a string to a list
+string = "abcdefghijklmnop"
+print([c for c in string])
