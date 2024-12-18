@@ -1,0 +1,12 @@
+
+def padded_zip(lists, padding=None):
+    # Find the length of the longest list
+    max_length = max(len(lst) for lst in lists)
+    
+    # Create padded copies of each list
+    padded_lists = [lst + [padding] * (max_length - len(lst)) for lst in lists]
+    
+    # Use zip to combine the lists into a tuple of tuples
+    res = tuple(zip(*padded_lists))
+    
+    return res
