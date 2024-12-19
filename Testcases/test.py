@@ -20,4 +20,7 @@ class TestSuite(TestCase):
         self.assertEqual(result[2], 3.0) 
         
 
+    #with self.assertRaises(AssertionError):
+            #words_by_len(123)
+
         
