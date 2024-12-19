@@ -15,4 +15,4 @@ def compress_sentence(sentence):
     return foo, foo
 '''
 
-
+print(bool(bool))
