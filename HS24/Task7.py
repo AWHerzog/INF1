@@ -1,4 +1,3 @@
-
 from abc import ABC
 
 class MonthlyContract(ABC):

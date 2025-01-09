@@ -6,7 +6,7 @@ def validate(it):
     
     foo = "".join([c.lower() for c in it if c.isalnum()])
 
-    foobar = [c.lower() for c in foo if c in ["p", "P", "a", "A", "s", "S","w", "W", "o", "O", "r", "R", "d", "D"]]
+    foobar = [c.lower() for c in it if c in ["p", "P", "a", "A", "s", "S","w", "W", "o", "O", "r", "R", "d", "D"]]
 
     if ['p', 'a', 's', 's', 'w', 'o', 'r', 'd'] in foobar:
         return False
