@@ -4,6 +4,9 @@ def validate(it):
     if len(it) < 10:
         return False
     
+    if it.lower() == it:
+        return False
+    
     foo = "".join([c.lower() for c in it if c.isalnum()])
 
     foobar = [c.lower() for c in it if c in ["p", "P", "a", "A", "s", "S","w", "W", "o", "O", "r", "R", "d", "D"]]
